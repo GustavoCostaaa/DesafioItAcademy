@@ -1,0 +1,12 @@
+.numbersBox--singleDisabled {
+  cursor: default;
+}
+
+.numbersBox--singleDisabled:hover {
+  background-color: #ffd600;
+}
+
+p {
+  text-align: center;
+  padding-bottom: 15px;
+}

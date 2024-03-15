@@ -1,0 +1,35 @@
+.numbersBox--single {
+  width: 75px;
+  height: 75px;
+  background-color: #ffd600;
+  border-radius: 50%;
+  margin: 8px;
+  display: inline-block;
+  line-height: 75px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.4s;
+  border: 1px solid #000;
+}
+
+.numbersBox--single:hover {
+  background-color: #fff4b9;
+}
+
+.numbersBox {
+  margin: 0 auto 30px;
+  max-width: 1120px;
+  text-align: center;
+}
+
+.numberSingle--active {
+  background-color: #957d00;
+}
+
+@media screen and (max-width: 768px) {
+  .numbersBox--single {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+  }
+}
