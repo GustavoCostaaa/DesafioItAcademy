@@ -22,6 +22,7 @@ h2 {
   display: block;
   cursor: pointer;
   transition: 0.4s;
+  color: black;
 }
 
 .btn--yellow {
@@ -72,4 +73,15 @@ ul {
 
 li {
   padding-bottom: 15px;
+}
+
+table {
+  margin: 0 auto 15px;
+}
+
+table th,
+table td {
+  padding: 0 15px;
+  text-align: center;
+  border-bottom: 1px solid black;
 }

@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Numbers from './components/Numbers';
 import Form from './components/Form';
 import Bets from './components/Bets';
 import Results from './components/Results';
+import { data } from './data/data';
 
 function App() {
   // State to manipulate the stage of the website
@@ -35,10 +36,10 @@ function App() {
   const [cpf, setCpf] = useState('');
 
   // State with all the bets
-  const [betList, setBetList] = useState([]);
+  const [betList, setBetList] = useState([...data]);
 
   // State that tracks the number of the bet
-  const [betNum, setBetNum] = useState(1000 + selectedNumbers.length);
+  const [betNum, setBetNum] = useState(1000 + betList.length);
 
   // State that stocks the raffled numbers
   const [raffledNumbers, setRaffledNumbers] = useState([]);
@@ -48,6 +49,9 @@ function App() {
 
   // State with the num of rounds
   const [rounds, setRounds] = useState(0);
+
+  // State with all the nums and how much bets they received
+  const [numBets, setNumBets] = useState([]);
 
   // Check if the name and the cpf are "valid"
   const checkNameAndCpf = (name, cpf) => {
@@ -127,15 +131,43 @@ function App() {
 
   // Function to raffle the numbers
   const handleRaffle = () => {
-    let roundsCounter = 0;
-    // Changes the stage of the page
-    setStage(1);
-
-    // Starts the raffled numbers array
-    let newRaffledNumbers = [];
-    setRaffledNumbers([]);
-
     if (betList.length != 0) {
+      // Changes the stage of the page
+      setStage(1);
+
+      // Initialize the variable that will count the amount of rounds
+      let roundsCounter = 0;
+
+      // Starts the raffled numbers array
+      let newRaffledNumbers = [];
+      setRaffledNumbers([]);
+
+      // Starts the array that will contain all of the numbers and how much bets the received
+      let numBet = [];
+
+      // Makes a loop to count the amount of times that a number was betted
+      for (let i = 0; i < 50; i++) {
+        // Pushs a number and initializes it "bets" number to the numBet array
+        numBet.push({
+          number: i + 1,
+          bets: 0,
+        });
+        // Makes a for for each of the bets
+        betList.forEach((bet) => {
+          // For for each of the numbers inside of the bet
+          bet.numbers.forEach((num) => {
+            // Checks if the number is equal to the number in the for now
+            if (num == i + 1) {
+              // Adds 1 to the bet number in the numBet array
+              numBet[i].bets += 1;
+            }
+          });
+        });
+      }
+
+      // Updates the numBet array
+      setNumBets(numBet);
+
       // Generate 5 randoms numbers 1 to 50
       for (let i = 0; newRaffledNumbers.length < 5; i++) {
         let newNum = Math.floor(Math.random() * 50) + 1;
@@ -180,7 +212,6 @@ function App() {
             newBetList[i].winner = 'yes';
             // Updates the betList state
             setBetList(newBetList);
-            console.log(bet.betNum, ' was the winner');
           }
         });
 
@@ -216,6 +247,40 @@ function App() {
       }, 3000);
     }
   };
+
+  // Function to sort the betList array by the number of the bet
+  betList.sort((a, b) => {
+    if (a.betNum < b.betNum) {
+      return 1;
+    } else if (a.betNum > b.betNum) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
+  // Function to sort the winnerBets array by the name of the person
+  winnerBets.sort((a, b) => {
+    if (a.name > b.name) {
+      return 1;
+    } else if (a.name < b.name) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
+  // Function to sort the numBets array by the times that a number was bet
+  numBets.sort((a, b) => {
+    if (a.bets < b.bets) {
+      return 1;
+    } else if (a.bets > b.bets) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
   return (
     <>
       <Header />
@@ -259,6 +324,7 @@ function App() {
           raffledNumbers={raffledNumbers}
           winnerBets={winnerBets}
           rounds={rounds}
+          numBets={numBets}
         />
       )}
     </>

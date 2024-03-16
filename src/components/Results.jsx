@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import './Results.css';
 
-const Results = ({ raffledNumbers, winnerBets, rounds }) => {
+const Results = ({ raffledNumbers, winnerBets, rounds, numBets }) => {
   return (
     <>
       <h2>Números Sorteados:</h2>
@@ -30,8 +30,24 @@ const Results = ({ raffledNumbers, winnerBets, rounds }) => {
       )}
       <p>
         Foram necessárias {rounds} rodadas para termos {winnerBets.length}{' '}
-        vencedores!
+        vencedor(es)!
       </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Quantidade de Apostas</th>
+          </tr>
+        </thead>
+        <tbody>
+          {numBets.map((num, i) => (
+            <tr key={i}>
+              <td>{num.number}</td>
+              <td>{num.bets}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };
@@ -40,6 +56,7 @@ Results.propTypes = {
   raffledNumbers: PropTypes.array,
   winnerBets: PropTypes.array,
   rounds: PropTypes.number,
+  numBets: PropTypes.array,
 };
 
 export default Results;
