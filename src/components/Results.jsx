@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
 import './Results.css';
 
-const Results = ({ raffledNumbers, winnerBets, rounds, numBets }) => {
+const Results = ({
+  raffledNumbers,
+  winnerBets,
+  rounds,
+  numBets,
+  changeStage2,
+}) => {
   return (
     <>
       <h2>Números Sorteados:</h2>
@@ -32,6 +38,9 @@ const Results = ({ raffledNumbers, winnerBets, rounds, numBets }) => {
         Foram necessárias {rounds} rodadas para termos {winnerBets.length}{' '}
         vencedor(es)!
       </p>
+      <button className="btn btn--yellow" onClick={changeStage2}>
+        Premiação!
+      </button>
       <table>
         <thead>
           <tr>
@@ -57,6 +66,7 @@ Results.propTypes = {
   winnerBets: PropTypes.array,
   rounds: PropTypes.number,
   numBets: PropTypes.array,
+  changeStage2: PropTypes.func,
 };
 
 export default Results;

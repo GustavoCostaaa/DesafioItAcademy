@@ -6,6 +6,7 @@ import Form from './components/Form';
 import Bets from './components/Bets';
 import Results from './components/Results';
 import { data } from './data/data';
+import Award from './components/Award';
 
 function App() {
   // State to manipulate the stage of the website
@@ -52,6 +53,18 @@ function App() {
 
   // State with all the nums and how much bets they received
   const [numBets, setNumBets] = useState([]);
+
+  // State that shows an alert if there is no winner bets and the user try to click the award button
+  const [invalidAward, setInvalidAward] = useState(false);
+
+  // State with the prizes array
+  const [prizes] = useState([
+    'Bicicleta',
+    'Computador',
+    'Monitor',
+    'Teclado',
+    'Mouse',
+  ]);
 
   // Check if the name and the cpf are "valid"
   const checkNameAndCpf = (name, cpf) => {
@@ -281,6 +294,39 @@ function App() {
     }
   });
 
+  // Change to the award stage
+  const changeStage2 = () => {
+    // Verify if we don't have a winner bet
+    if (winnerBets.length == 0) {
+      // Show the invalidAward alert box
+      setInvalidAward(true);
+
+      // Function to remove the invalidAward box after 3 seconds
+      setTimeout(() => {
+        setNoBets(false);
+      }, 3000);
+    } else {
+      // Change to the award page
+      setStage(2);
+      // Raffle a prize for the winner bets
+      rafflePrize();
+    }
+  };
+
+  const rafflePrize = () => {
+    // Raffle a prize for each of the winner bets
+    for (let i = 0; i < winnerBets.length; i++) {
+      // Raffle a number
+      let prizeNumber = Math.floor(Math.random() * prizes.length);
+      // Create a new array to add the prize property for the winner bet
+      let newWinnerBets = [...winnerBets];
+      // Sets the value for the prize property
+      newWinnerBets[i].prize = prizes[prizeNumber];
+      // Updates the state of winnerBets
+      setWinnerBets(newWinnerBets);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -320,13 +366,22 @@ function App() {
         </>
       )}
       {stage == 1 && (
-        <Results
-          raffledNumbers={raffledNumbers}
-          winnerBets={winnerBets}
-          rounds={rounds}
-          numBets={numBets}
-        />
+        <>
+          {invalidAward && (
+            <div className="alertBox alertBox--red">
+              Não houve nenhum vencedor!
+            </div>
+          )}
+          <Results
+            raffledNumbers={raffledNumbers}
+            winnerBets={winnerBets}
+            rounds={rounds}
+            numBets={numBets}
+            changeStage2={changeStage2}
+          />
+        </>
       )}
+      {stage == 2 && <Award winnerBets={winnerBets} />}
     </>
   );
 }

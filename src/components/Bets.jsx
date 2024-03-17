@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import './Bets.css';
 
 const Bets = ({ betList, handleRaffle }) => {
   return (

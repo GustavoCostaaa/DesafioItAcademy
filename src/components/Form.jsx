@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import './Form.css';
 
 const Form = ({ handleSubmit, name, setName, cpf, setCpf }) => {
