@@ -9,3 +9,7 @@
 3 - Após instalar o npm, digite "npm run dev"
 
 4 - Para finalizar, aparecerá um texto "local: " e um link, segure o "ctrl" e clique com o botão esquerdo no link
+
+## Ou
+
+Entre pelo link: <a href="https://desafio-it-academy.vercel.app/" target="_blank" >https://desafio-it-academy.vercel.app/</a>
